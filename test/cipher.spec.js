@@ -59,7 +59,7 @@ describe('cipher', () => {
       expect(cipher.decode(33, 'HIJKLMNOPQRSTUVWXYZABCDEFG')).toBe('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
     });
 
-    // Hacker edition
+    /*// Hacker edition
     
     // Se quiser adicionar testes para letras minúsculas, descomente o teste
     // abaixo.
@@ -73,7 +73,7 @@ describe('cipher', () => {
     //
     it('should return " !@" para " !@"', () => {
       expect(cipher.decode(33, ' !@')).toBe(' !@');
-    });
+    }); */
   });
 
-});
+}); 
