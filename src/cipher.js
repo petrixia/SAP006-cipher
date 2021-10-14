@@ -2,7 +2,7 @@ const cipher = {
 
   encode: function encode(offset, string) {
 
-    let mensage = ""
+    let message = ""
     let offsetNumber = parseInt(offset)
 
     if (typeof offsetNumber === "number" && typeof string === "string") {
@@ -25,17 +25,17 @@ const cipher = {
         else if (crypt >= 123 && crypt <= 254) {
           crypt = ((crypt - 123 + offsetNumber) % 131 + 123) ;
         }
-        mensage += String.fromCharCode(crypt)
+        message += String.fromCharCode(crypt)
       }
-      return mensage
+      return message
 
     } else {
-      throw new TypeError("Erro na codificação")
+      throw new TypeError("Erro inesperado")
     }
   },
 
   decode: function decode(offset, string) {
-    let mensage = ""
+    let message = ""
     let offsetNumber = parseInt(offset)
 
     if (typeof offsetNumber === "number" && typeof string === "string") {
@@ -58,12 +58,12 @@ const cipher = {
         else if (decode >= 123 && decode <= 254) {
           decode = 254 - ((254 - decode + offsetNumber) % 131);
         }
-        mensage += String.fromCharCode(decode)
+        message += String.fromCharCode(decode)
       }
-      return mensage
+      return message
 
     } else {
-      throw new TypeError("Erro na decodificação")
+      throw new TypeError("Erro inesperado.")
     }
   }
 
