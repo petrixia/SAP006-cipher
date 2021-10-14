@@ -1,51 +1,72 @@
 const cipher = {
 
-  encode: function (offset, string) {
-    let encodeText = '';
-    let encrypt;
-    if (offset == '' || offset == null || string == '' || string == null) {
-      throw TypeError('Entrada inválida!', 'cipher.js');
+  encode: function encode(offset, string) {
+
+    let mensage = ""
+    let offsetNumber = parseInt(offset)
+
+    if (typeof offsetNumber === "number" && typeof string === "string") {
+
+      for (let i = 0; i < string.length; i++) {
+        let crypt = string.charCodeAt(i)
+
+        if (offsetNumber < 0) {
+          offsetNumber = Math.abs(offsetNumber);
+        }
+        else if (crypt >= 34 && crypt <= 63) {
+          crypt = ((crypt - 34 + offsetNumber) % 29  + 34);
+        }
+        else if (crypt >= 65 && crypt <= 90) {
+          crypt = ((crypt - 65 + offsetNumber) % 26 + 65) ;
+        }
+        else if (crypt >= 97 && crypt <= 122) {
+          crypt = ((crypt - 97 + offsetNumber) % 26 + 97) ;
+        }
+        else if (crypt >= 123 && crypt <= 254) {
+          crypt = ((crypt - 123 + offsetNumber) % 131 + 123) ;
+        }
+        mensage += String.fromCharCode(crypt)
+      }
+      return mensage
+
+    } else {
+      throw new TypeError("Erro na codificação")
     }
-
-    for (let i = 0; i < string.length; i++) {
-      let stringASC = string.charCodeAt(i);
-
-      if (stringASC >= 65 && stringASC <= 90) {
-        encrypt = ((stringASC - 65 + offset) % 26 + 65);
-        encodeText += String.fromCharCode(encrypt);
-      }
-      else if (stringASC >= 97 && stringASC <= 122) {
-        encrypt = ((stringASC - 97 + offset) % 26 + 97)
-        encodeText += String.fromCharCode(encrypt);
-      }
-      else if (string.charCodeAt(i) == 32 || string.charCodeAt(i) == 44) {
-        encodeText += string.charAt(i);
-      }
-    } return encodeText;
   },
 
-  decode: function (offset, string) {
-    let decodeText = '';
-    let decrypt;
-    if (offset == '' || offset == null || string == '' || string == null) {
-      throw new TypeError('Entrada inválida!', 'cipher.js');
+  decode: function decode(offset, string) {
+    let mensage = ""
+    let offsetNumber = parseInt(offset)
+
+    if (typeof offsetNumber === "number" && typeof string === "string") {
+
+      for (let i = 0; i < string.length; i++) {
+        let decode = string.charCodeAt(i)
+
+        if (offsetNumber < 0) {
+          offsetNumber = Math.abs(offsetNumber);
+        }
+        else if (decode >= 34 && decode <= 63) {
+          decode =  63 - ((63 - decode + offsetNumber) % 29);
+        }
+        else if (decode >= 65 && decode <= 90) {
+          decode = 90 - ((90 - decode + offsetNumber) % 26);
+        }
+        else if (decode >= 97 && decode <= 122) {
+          decode = 122 - ((122 - decode + offsetNumber) % 26);
+        }
+        else if (decode >= 123 && decode <= 254) {
+          decode = 254 - ((254 - decode + offsetNumber) % 131);
+        }
+        mensage += String.fromCharCode(decode)
+      }
+      return mensage
+
+    } else {
+      throw new TypeError("Erro na decodificação")
     }
-
-    for (let i = 0; i < string.length; i++) {
-      let stringASC = string.charCodeAt(i);
-
-      if (stringASC >= 65 && stringASC <= 90) {
-        let decrypt = ((stringASC - 90 - offset) % 26 + 90);
-        decodeText += String.fromCharCode(decrypt);
-      }
-      else if (stringASC >= 97 && stringASC <= 122) {
-        decrypt = ((stringASC - 122 - offset) % 26 + 122);
-        decodeText += String.fromCharCode(decrypt);
-      }
-      else if (string.charCodeAt(i) == 32 || string.charCodeAt(i) == 44) {
-         encodeText += string.charAt(i);
-      }
-    } return decodeText;
   }
-}
+
+};
+
 export default cipher;
